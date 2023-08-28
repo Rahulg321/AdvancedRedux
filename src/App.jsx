@@ -4,7 +4,7 @@ import Products from "./components/Shop/Products";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { uiActions } from "./store/ui-slice";
+import { sendCartData, fetchCartData } from "./store/cart-actions";
 
 import Notification from "./components/UI/Notification/Notification";
 
@@ -21,49 +21,19 @@ function App() {
   // PATCH will edit the data
 
   useEffect(() => {
-    dispatch( 
-      uiActions.showNotification({
-        status: "pending",
-        title: "sending data.....",
-        message: "data is being sent",
-      })
-    );
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
-    async function saveCart() {
-      const response = await fetch(
-        "https://react-http-cb681-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("something went wrong");
-      }
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "sent data.....",
-          message: "data has been successfully sent",
-        })
-      );
-    }
-
+  useEffect(() => {
+    // this make sures that use effect does not run during the initial render
     if (initialLoadingState) {
       initialLoadingState = false;
       return;
     }
 
-    saveCart().catch((e) => {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "Errorrrrrrr.....",
-          message: e.message,
-        })
-      );
-    });
+    if (cart.changed) {
+      dispatch(sendCartData(cart));
+    }
   }, [cart, dispatch]);
 
   return (

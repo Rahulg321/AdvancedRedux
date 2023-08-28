@@ -1,5 +1,5 @@
 import classes from "./CartItem.module.css";
-import { cartActions } from "../../store";
+import { cartActions } from "../../store/cart-slice";
 import { useDispatch } from "react-redux";
 
 const CartItem = (props) => {
@@ -12,7 +12,7 @@ const CartItem = (props) => {
 
   const removeItemHandler = () => {
     dispatch(cartActions.removeItemFromCart(id));
-  }; 
+  };
 
   return (
     <li className={classes.item}>

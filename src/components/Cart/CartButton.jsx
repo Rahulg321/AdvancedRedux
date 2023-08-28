@@ -11,7 +11,6 @@ const CartButton = (props) => {
   });
 
   const toggleCartHandler = () => {
-    console.log("show cart button clicked");
     dispatch(uiActions.toggleCart());
   };
 

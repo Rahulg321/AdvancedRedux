@@ -6,6 +6,5 @@ const store = configureStore({
   reducer: { cart: cartSlice.reducer, ui: uiSlice.reducer },
 });
 
-export const cartActions = cartSlice.actions;
 
 export default store;
